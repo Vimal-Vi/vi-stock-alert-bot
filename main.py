@@ -25,24 +25,13 @@ while True:
         }
 
         data = requests.get(url, headers=headers).json()
+for item in data["data"]:
+    stock = item["metadata"]["symbol"]
+    change = float(item["metadata"]["pChange"])
+    price = float(item["metadata"]["lastPrice"])
 
-        for item in data["data"]:
-            stock = item["metadata"]["symbol"]
-            change = float(item["metadata"]["pChange"])
-
-            if change >= 14 and stock not in sent_stocks:
-                send_telegram(
-                    f"🔥 NSE ALERT\n\n{stock}\nGain: {change}%"
-                )
-                sent_stocks.add(stock)
-change = float(item["metadata"]["pChange"])
- price = float(item["metadata"]["lastPrice"])
-if change >= 14 and stock not in sent_stocks:
     if change >= 14 and price >= 200 and stock not in sent_stocks:
         send_telegram(
-    f"🔥 NSE ALERT\n\n{stock}\nPrice: ₹{price}\nGain: {change}%"
-)
-    except Exception as e:
-        print(e)
-
-    time.sleep(300)
+            f"🔥 NSE ALERT\n\n{stock}\nPrice: ₹{price}\nGain: {change}%"
+        )
+        sent_stocks.add(stock)
