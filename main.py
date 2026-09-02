@@ -25,13 +25,29 @@ while True:
         }
 
         data = requests.get(url, headers=headers).json()
-for item in data["data"]:
-    stock = item["metadata"]["symbol"]
-    change = float(item["metadata"]["pChange"])
-    price = float(item["metadata"]["lastPrice"])
+        
+while True:
+    try:
+        url = "https://www.nseindia.com/api/market-data-pre-open?key=ALL"
 
-    if change >= 14 and price >= 200 and stock not in sent_stocks:
-        send_telegram(
-            f"🔥 NSE ALERT\n\n{stock}\nPrice: ₹{price}\nGain: {change}%"
-        )
-        sent_stocks.add(stock)
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+
+        data = requests.get(url, headers=headers).json()
+
+        for item in data["data"]:
+            stock = item["metadata"]["symbol"]
+            change = float(item["metadata"]["pChange"])
+            price = float(item["metadata"]["lastPrice"])
+
+            if change >= 14 and price >= 200 and stock not in sent_stocks:
+                send_telegram(
+                    f"🔥 NSE ALERT\n\n{stock}\nPrice: ₹{price}\nGain: {change}%"
+                )
+                sent_stocks.add(stock)
+
+    except Exception as e:
+        print(e)
+
+    time.sleep(300)
