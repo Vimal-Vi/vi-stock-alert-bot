@@ -25,16 +25,6 @@ while True:
         }
 
         data = requests.get(url, headers=headers).json()
-        
-while True:
-    try:
-        url = "https://www.nseindia.com/api/market-data-pre-open?key=ALL"
-
-        headers = {
-            "User-Agent": "Mozilla/5.0"
-        }
-
-        data = requests.get(url, headers=headers).json()
 
         for item in data["data"]:
             stock = item["metadata"]["symbol"]
