@@ -31,10 +31,18 @@ while True:
             change = float(item["metadata"]["pChange"])
             price = float(item["metadata"]["lastPrice"])
 
-            if change >= 14 and price >= 200 and stock not in sent_stocks:
+            if (
+                change >= 14
+                and price >= 200
+                and stock not in sent_stocks
+            ):
                 send_telegram(
-                    f"🔥 NSE ALERT\n\n{stock}\nPrice: ₹{price}\nGain: {change}%"
+                    f"🔥 NSE ALERT\n\n"
+                    f"{stock}\n"
+                    f"Price: ₹{price}\n"
+                    f"Gain: {change}%"
                 )
+
                 sent_stocks.add(stock)
 
     except Exception as e:
